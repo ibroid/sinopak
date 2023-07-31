@@ -1,0 +1,23 @@
+<div class="ma-lg-2">
+    <h3>Informasi</h3>
+    <p>Sistem ini mengandalkan injeksi pada script pemograman aplikasi SIPP, namun tidak berefek pada
+        aplikasi SIPP. Hanya menambahkan kolom eksekusi untuk mengirimkan notifikasi saat aktivitas
+        bisnis proses berlangsung.
+    </p>
+    <br>
+    <p>Berikut Dibawah ini adalah file-file pada aplikasi SIPP yang mengalami modifikasi untuk mendukung
+        sistem ini :</p>
+    <!-- <hr> -->
+    <v-timeline side="end">
+        <v-timeline-item v-for="item in items" :key="item.id" :dot-color="item.color" size="small">
+            <v-alert :value="true" :color="item.color" :icon="item.icon">
+                {{item.text}}
+            </v-alert>
+        </v-timeline-item>
+    </v-timeline>
+    <!-- <hr> -->
+    <v-card color="red-lighten-2" class="mt-lg-5">
+        <v-card-text>Apabila terjadi update sipp yang menimpa file-file tersebut di atas. Maka sebagian
+            fitur dari sistem ini tidak akan berjalan</v-card-text>
+    </v-card>
+</div>

@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/sinopak_client"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL_SINOPAK")
+}
+
+model jenis_notifikasi {
+  id              Int      @id @default(autoincrement())
+  nama_notifikasi String
+  key             String   @db.VarChar(64)
+  created_at      DateTime @default(now()) @db.Timestamp(0)
+  updated_at      DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+}
+
+model log_notifikasi {
+  id               Int      @id @default(autoincrement())
+  pesan            String   @db.Text
+  tujuan           String   @db.VarChar(15)
+  created_at       DateTime @default(now()) @db.Timestamp(0)
+  updated_at       DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  jenis_notifikasi Int?
+}
+
+model notifikasi {
+  id                  Int      @id @default(autoincrement())
+  jenis_notifikasi_id Int?
+  pesan               String?  @db.Text
+  filename            String?  @db.VarChar(255)
+  created_at          DateTime @default(now()) @db.Timestamp(0)
+  updated_at          DateTime @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  tujuan              Int
+}

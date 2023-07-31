@@ -1,0 +1,44 @@
+<v-layout class="rounded rounded-md">
+    <v-app-bar color="primary" density="compact" title="Sistem Notifikasi Perkara">
+        <template v-slot:prepend>
+            <v-btn icon="material-icons list"></v-btn>
+        </template>
+
+        <template v-slot:append>
+            <v-btn icon="material-icons more_vert"></v-btn>
+        </template>
+    </v-app-bar>
+
+    <v-navigation-drawer>
+        <v-list>
+            <v-list-item title="Profile"></v-list-item>
+            <v-list-item active prepend-icon="material-icons dashboard" title="Beranda" value="home">
+            </v-list-item>
+            <v-list-item title="Notifikasi Penetapan"></v-list-item>
+            <v-list-item prepend-icon="material-icons groups" title="Penetapan Majelis" value="pmh">
+            </v-list-item>
+            <v-list-item prepend-icon="material-icons person" title="Penetapan Panitera">
+            </v-list-item>
+            <v-list-item prepend-icon="material-icons people_alt" title="Penetapan Jurusita">
+            </v-list-item>
+            <v-list-item title="Notifikasi Persidangan"></v-list-item>
+            <v-list-item prepend-icon="material-icons domain_verification" title="Sidang Pertama">
+            </v-list-item>
+            <v-list-item prepend-icon="material-icons event_repeat" title="Tunda Sidang">
+            </v-list-item>
+            <v-list-item prepend-icon="material-icons rule_folder" title="Putus Verstek">
+            </v-list-item>
+            <v-list-item prepend-icon="material-icons card_giftcard" title="Peringatan Relaas">
+            </v-list-item>
+            <v-list-item title="Notifikasi Berkas"></v-list-item>
+            <v-list-item prepend-icon="material-icons card_membership" title="Akta Cerai">
+            </v-list-item>
+            <v-list-item prepend-icon="material-icons approval" title="Relaas Panggilan">
+            </v-list-item>
+        </v-list>
+    </v-navigation-drawer>
+
+    <v-main class="d-flex align-center">
+        <router-view></router-view>
+    </v-main>
+</v-layout>
