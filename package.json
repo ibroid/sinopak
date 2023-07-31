@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.js",
+    "dev": "npx nodemon index.js",
     "dbpull:sinopak": "npx prisma db pull --schema=./prisma/sinopak.schema.prisma",
     "dbgen:sinopak": "npx prisma generate --schema=./prisma/sinopak.schema.prisma",
     "dbgen:sipp": "npx prisma generate --schema=./prisma/sipp.schema.prisma",

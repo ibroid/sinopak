@@ -1,1 +1,92 @@
-<h1>Hello Wolrd</h1>
+<v-container class="ma-lg-5">
+    <h3>Notifikasi Penetapan Majelis Hakim</h3>
+    <v-alert v-if="loading">
+        <v-alert-title>Loading data ...</v-alert-title>
+    </v-alert>
+    <v-alert class="bg-red" v-if="error">
+        <v-alert-title>Error fetching data. {{error}}</v-alert-title>
+    </v-alert>
+    <v-row v-if="!loading && !error" no-gutters>
+        <v-col class="ma-md-2" md="4">
+            <v-card class="mb-lg-5 ">
+                <v-card-title class="bg-indigo">Event</v-card-title>
+                <v-card-text>
+                    Notifikasi ini berjalan saat petugas membuat penetapan majelis hakim pada menu penetapan di SIPP
+                </v-card-text>
+                <v-card-text>
+                    Filename : {{data.notifikasi[0].filename}} <br>
+                    Tujuan : {{data.notifikasi[0].tujuan == 0 ? 'Pegawai' : 'Pihak' }}
+                </v-card-text>
+            </v-card>
+
+            <v-card>
+                <v-card-title class="bg-pink-lighten-1">Konfigurasi</v-card-title>
+                <v-card-text>
+                    Silahkan konfigurasi pesan notifikasi disini
+                </v-card-text>
+                <v-card-item>
+                    <v-textarea v-model="data.notifikasi[0].pesan"></v-textarea>
+                    <v-card-subtitle class="text-red">*Kata di dalam tanda kurung adalah variabel</v-card-subtitle>
+                    <v-btn class="mr-md-2" color="green">Simpan</v-btn>
+                    <v-btn color="indigo">Test</v-btn>
+                </v-card-item>
+
+            </v-card>
+        </v-col>
+        <v-col class="ma-md-2">
+            <v-card class="mb-lg-5">
+                <v-card-title class="bg-indigo">Konfigurasi</v-card-title>
+                <v-card-title class="">Log Notifikasi</v-card-title>
+                <v-card-item>
+                    <v-list :height="600">
+                        <v-list-item>
+                            <v-list-item-title>6289636811489</v-list-item-title>
+                            <v-list-item-subtitle>2023-01-01 12:00:00 - ini adalah pesan WA</v-list-item-subtitle>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-title>6289636811489</v-list-item-title>
+                            <v-list-item-subtitle>2023-01-01 12:00:00 - ini adalah pesan WA</v-list-item-subtitle>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-title>6289636811489</v-list-item-title>
+                            <v-list-item-subtitle>2023-01-01 12:00:00 - ini adalah pesan WA</v-list-item-subtitle>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-title>6289636811489</v-list-item-title>
+                            <v-list-item-subtitle>2023-01-01 12:00:00 - ini adalah pesan WA</v-list-item-subtitle>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-title>6289636811489</v-list-item-title>
+                            <v-list-item-subtitle>2023-01-01 12:00:00 - ini adalah pesan WA</v-list-item-subtitle>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-title>6289636811489</v-list-item-title>
+                            <v-list-item-subtitle>2023-01-01 12:00:00 - ini adalah pesan WA</v-list-item-subtitle>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-title>6289636811489</v-list-item-title>
+                            <v-list-item-subtitle>2023-01-01 12:00:00 - ini adalah pesan WA</v-list-item-subtitle>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-title>6289636811489</v-list-item-title>
+                            <v-list-item-subtitle>2023-01-01 12:00:00 - ini adalah pesan WA</v-list-item-subtitle>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-title>6289636811489</v-list-item-title>
+                            <v-list-item-subtitle>2023-01-01 12:00:00 - ini adalah pesan WA</v-list-item-subtitle>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-title>6289636811489</v-list-item-title>
+                            <v-list-item-subtitle>2023-01-01 12:00:00 - ini adalah pesan WA</v-list-item-subtitle>
+                        </v-list-item>
+                        <v-list-item>
+                            <v-list-item-title>6289636811489</v-list-item-title>
+                            <v-list-item-subtitle>2023-01-01 12:00:00 - ini adalah pesan WA</v-list-item-subtitle>
+                        </v-list-item>
+                    </v-list>
+                </v-card-item>
+            </v-card>
+        </v-col>
+    </v-row>
+
+</v-container>

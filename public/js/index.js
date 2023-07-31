@@ -1,5 +1,6 @@
-const { createApp, ref, onMounted } = Vue
-const { createVuetify } = Vuetify
+const { createApp, ref, onMounted } = Vue;
+const { createVuetify } = Vuetify;
+const { useRouter, useRoute } = VueRouter;
 import pmhSetup from "./pmh.js";
 
 async function bootstrap() {
@@ -28,7 +29,12 @@ async function bootstrap() {
                 }
             }
         },
-        // { path: '/about', component: About },
+        {
+            path: '/pmh', component: {
+                template: pages[2],
+                ...pmhSetup
+            }
+        },
     ]
 
     const router = VueRouter.createRouter({
@@ -41,6 +47,8 @@ async function bootstrap() {
     const app = createApp({
         template: pages[0],
         setup() {
+            const router = useRouter();
+
             const message = ref('Hello World')
             const items = [
                 {
@@ -58,7 +66,7 @@ async function bootstrap() {
             ]
 
             return {
-                message, items
+                message, items, router
             }
         }
     });

@@ -12,10 +12,12 @@
     <v-navigation-drawer>
         <v-list>
             <v-list-item title="Profile"></v-list-item>
-            <v-list-item active prepend-icon="material-icons dashboard" title="Beranda" value="home">
+            <v-list-item :onclick="() => router.replace('/')" prepend-icon="material-icons dashboard" title="Beranda"
+                value="home">
             </v-list-item>
             <v-list-item title="Notifikasi Penetapan"></v-list-item>
-            <v-list-item prepend-icon="material-icons groups" title="Penetapan Majelis" value="pmh">
+            <v-list-item :onclick="() => router.replace('/pmh')" prepend-icon="material-icons groups"
+                title="Penetapan Majelis" value="pmh">
             </v-list-item>
             <v-list-item prepend-icon="material-icons person" title="Penetapan Panitera">
             </v-list-item>

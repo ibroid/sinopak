@@ -1,3 +1,5 @@
+import pmhRoute from "./services/Pmh/route.js";
+
 /**
  * @type {import("fastify/types/route").RouteOptions[]}
  */
@@ -7,15 +9,6 @@ const routes = [
         method: "GET",
         handler: (req, res) => {
             res.sendFile('index.html')
-        }
-    },
-    {
-        url: "/kuya",
-        method: "GET",
-        handler: (req, res) => {
-            return {
-                status: "batok"
-            }
         }
     },
     {
@@ -32,13 +25,7 @@ const routes = [
             res.sendFile('pages/beranda.html')
         }
     },
-    {
-        url: "/pmh_page",
-        method: "GET",
-        handler: (req, res) => {
-            res.sendFile('pages/pmh.html')
-        }
-    },
+    ...pmhRoute
 ];
 
 export default routes;
