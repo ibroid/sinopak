@@ -4,6 +4,7 @@ import fastifyCors from '@fastify/cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import routes from './routes.js';
+import 'dotenv/config';
 
 const fastify = Fastify()
 
@@ -29,7 +30,6 @@ routes.forEach(route => {
     fastify.route(route)
 })
 
-// Run the server!
 try {
     await fastify.listen({ port: 3000 })
 } catch (err) {

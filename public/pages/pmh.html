@@ -25,9 +25,12 @@
                     Silahkan konfigurasi pesan notifikasi disini
                 </v-card-text>
                 <v-card-item>
-                    <v-textarea v-model="data.notifikasi[0].pesan"></v-textarea>
+                    <v-progress-linear v-if="submitLoading" color="primary" indeterminate></v-progress-linear>
+                    <v-textarea :disabled="submitLoading" v-model="data.notifikasi[0].pesan"></v-textarea>
                     <v-card-subtitle class="text-red">*Kata di dalam tanda kurung adalah variabel</v-card-subtitle>
-                    <v-btn class="mr-md-2" color="green">Simpan</v-btn>
+                    <v-btn @click="save" :disabled="submitLoading" class="mr-md-2" color="green">
+                        Simpan
+                    </v-btn>
                     <v-btn color="indigo">Test</v-btn>
                 </v-card-item>
 
@@ -39,54 +42,23 @@
                 <v-card-title class="">Log Notifikasi</v-card-title>
                 <v-card-item>
                     <v-list :height="600">
-                        <v-list-item>
-                            <v-list-item-title>6289636811489</v-list-item-title>
-                            <v-list-item-subtitle>2023-01-01 12:00:00 - ini adalah pesan WA</v-list-item-subtitle>
-                        </v-list-item>
-                        <v-list-item>
-                            <v-list-item-title>6289636811489</v-list-item-title>
-                            <v-list-item-subtitle>2023-01-01 12:00:00 - ini adalah pesan WA</v-list-item-subtitle>
-                        </v-list-item>
-                        <v-list-item>
-                            <v-list-item-title>6289636811489</v-list-item-title>
-                            <v-list-item-subtitle>2023-01-01 12:00:00 - ini adalah pesan WA</v-list-item-subtitle>
-                        </v-list-item>
-                        <v-list-item>
-                            <v-list-item-title>6289636811489</v-list-item-title>
-                            <v-list-item-subtitle>2023-01-01 12:00:00 - ini adalah pesan WA</v-list-item-subtitle>
-                        </v-list-item>
-                        <v-list-item>
-                            <v-list-item-title>6289636811489</v-list-item-title>
-                            <v-list-item-subtitle>2023-01-01 12:00:00 - ini adalah pesan WA</v-list-item-subtitle>
-                        </v-list-item>
-                        <v-list-item>
-                            <v-list-item-title>6289636811489</v-list-item-title>
-                            <v-list-item-subtitle>2023-01-01 12:00:00 - ini adalah pesan WA</v-list-item-subtitle>
-                        </v-list-item>
-                        <v-list-item>
-                            <v-list-item-title>6289636811489</v-list-item-title>
-                            <v-list-item-subtitle>2023-01-01 12:00:00 - ini adalah pesan WA</v-list-item-subtitle>
-                        </v-list-item>
-                        <v-list-item>
-                            <v-list-item-title>6289636811489</v-list-item-title>
-                            <v-list-item-subtitle>2023-01-01 12:00:00 - ini adalah pesan WA</v-list-item-subtitle>
-                        </v-list-item>
-                        <v-list-item>
-                            <v-list-item-title>6289636811489</v-list-item-title>
-                            <v-list-item-subtitle>2023-01-01 12:00:00 - ini adalah pesan WA</v-list-item-subtitle>
-                        </v-list-item>
-                        <v-list-item>
-                            <v-list-item-title>6289636811489</v-list-item-title>
-                            <v-list-item-subtitle>2023-01-01 12:00:00 - ini adalah pesan WA</v-list-item-subtitle>
-                        </v-list-item>
-                        <v-list-item>
-                            <v-list-item-title>6289636811489</v-list-item-title>
-                            <v-list-item-subtitle>2023-01-01 12:00:00 - ini adalah pesan WA</v-list-item-subtitle>
+                        <v-list-item v-for="(log, i) in data.log_notifikasi" key="i">
+                            <v-list-item-title>{{log.tujuan}}</v-list-item-title>
+                            <v-list-item-text>{{log.created_at}} - {{log.pesan}}</v-list-item-text>
+                            <v-divider />
                         </v-list-item>
                     </v-list>
                 </v-card-item>
             </v-card>
         </v-col>
     </v-row>
+    <v-snackbar v-model="snackbar" :timeout="2000">
+        {{submitResponse}}
+        <template v-slot:actions>
+            <v-btn color="blue" variant="text" @click="snackbar = false">
+                Close
+            </v-btn>
+        </template>
+    </v-snackbar>
 
 </v-container>
