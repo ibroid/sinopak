@@ -1,4 +1,3 @@
-import { Prisma, PrismaClient } from "../../prisma/generated/sinopak_client/index.js";
 import { res_failed, res_success } from "../../utils/response_json.js";
 import { sendNotif } from "./Notifikasi.js";
 import { prisma } from "../../db/sinopak.js"
@@ -14,23 +13,19 @@ export function pageHandler(req, res) {
  * @type {import("fastify/types/route").RouteHandler}
  */
 export async function dataHandler(req, res) {
-    const prisma = new PrismaClient()
-    try {
-        const data = await prisma.jenis_notifikasi.findFirst({
-            where: {
-                key: 'pmh'
-            },
-            include: {
-                log_notifikasi: true,
-                notifikasi: true
-            }
-        })
 
-        res.status(200).send(res_success({ data: data }))
-    } catch (error) {
+    const data = await prisma.jenis_notifikasi.findFirst({
+        where: {
+            key: 'pmh'
+        },
+        include: {
+            log_notifikasi: true,
+            notifikasi: true
+        }
+    })
 
-        res.status(400).send(res_failed({ message: "Terjadi kesalahan. " + error.message }))
-    }
+    res.status(200).send(res_success({ data: data }))
+
 }
 
 /**
@@ -59,7 +54,7 @@ export async function saveHandler(req, res) {
  */
 export async function testNotifHandler(req, res) {
     try {
-        const resp = await sendNotif(req.body.number, req.body.text);
+        await sendNotif(req.body.number);
 
         res.status(200).send(res_success({ message: `Pesan test berhasil dikirim ke nomor ${req.body.number}` }))
     } catch (error) {

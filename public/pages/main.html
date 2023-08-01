@@ -19,7 +19,8 @@
             <v-list-item :onclick="() => router.replace('/pmh')" prepend-icon="material-icons groups"
                 title="Penetapan Majelis" value="pmh">
             </v-list-item>
-            <v-list-item prepend-icon="material-icons person" title="Penetapan Panitera">
+            <v-list-item :onclick="() => router.replace('/ppp')" prepend-icon="material-icons person"
+                title="Penetapan Panitera" value="ppp">
             </v-list-item>
             <v-list-item prepend-icon="material-icons people_alt" title="Penetapan Jurusita">
             </v-list-item>
@@ -41,6 +42,16 @@
     </v-navigation-drawer>
 
     <v-main class="d-flex align-center">
-        <router-view></router-view>
+        <v-container v-if="pageLoading && !pageError" class="fill-height align-center justify-center">
+            <h3>Loading UI</h3>
+            <v-progress-circular class="ma-lg-10 " indeterminate></v-progress-circular>
+        </v-container>
+        <v-container v-if="pageError" class="fill-height align-center justify-center">
+            <h3>{{pageError}}</h3>
+            <!-- <v-progress-circular class="ma-lg-10 " indeterminate></v-progress-circular> -->
+        </v-container>
+
+        <router-view v-else="pageLoading"></router-view>
+
     </v-main>
 </v-layout>

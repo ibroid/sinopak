@@ -1,12 +1,12 @@
 const { createApp, ref, onMounted } = Vue;
 const { createVuetify } = Vuetify;
-const { useRouter, useRoute } = VueRouter;
+const { useRouter, useRoute, START_LOCATION } = VueRouter;
 import pmhSetup from "./pmh.js";
 
 async function bootstrap() {
 
     const urls = [
-        '/main_page', '/beranda_page', '/pmh_page'
+        '/main_page', '/beranda_page', '/pmh_page', '/ppp_page',
     ];
 
     const fetchPages = Promise.all(
@@ -30,10 +30,10 @@ async function bootstrap() {
             }
         },
         {
-            path: '/pmh', component: {
-                template: pages[2],
-                ...pmhSetup
-            }
+            path: '/pmh', component: { template: pages[2], ...pmhSetup }
+        },
+        {
+            path: '/ppp', component: { template: pages[3] }
         },
     ]
 
@@ -47,7 +47,9 @@ async function bootstrap() {
     const app = createApp({
         template: pages[0],
         setup() {
+            const pageLoading = ref(false)
             const router = useRouter();
+            const pageError = ref(false)
 
             const message = ref('Hello World')
             const items = [
@@ -66,7 +68,7 @@ async function bootstrap() {
             ]
 
             return {
-                message, items, router
+                message, items, router, pageLoading, pageError
             }
         }
     });

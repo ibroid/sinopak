@@ -8,6 +8,9 @@ const pmhSetup = {
         const snackbar = ref(false)
         const submitLoading = ref(false)
         const submitResponse = ref(null)
+        const dialog = ref(false)
+        const nomorTelpPenerima = ref(null)
+
         onMounted(function () {
             fetch('/pmh_data')
                 .then(res => {
@@ -17,7 +20,7 @@ const pmhSetup = {
                     return res.json()
                 })
                 .then(res => {
-                    console.log(res.data)
+                    // console.log(res.data)
                     data.value = res.data;
                 })
                 .catch(err => {
@@ -39,12 +42,13 @@ const pmhSetup = {
                     headers: {
                         'Content-Type': 'application/json'
                     }
-                }).then(res => {
-                    if (!res.ok) {
-                        throw new Error(res.statusText)
-                    }
-                    return res.json()
                 })
+                    .then(res => {
+                        if (!res.ok) {
+                            throw new Error(res.statusText)
+                        }
+                        return res.json()
+                    })
 
                 submitResponse.value = send.message;
             } catch (error) {
@@ -54,8 +58,40 @@ const pmhSetup = {
             snackbar.value = true;
         }
 
-        const testNotif = async () => {
+        const rules = [
+            value => !!value || 'Required.',
+            value => (value && value.length >= 3) || 'Min 3 characters',
+        ]
 
+        const testNotif = () => {
+            if (!nomorTelpPenerima.value) {
+                return;
+            }
+
+            fetch('/pmh_test_notif', {
+                method: "POST",
+                body: JSON.stringify({
+                    number: nomorTelpPenerima.value,
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error(res.statusText)
+                    }
+                    return res.json()
+                })
+                .then(res => {
+                    submitResponse.value = res.message
+                })
+                .catch(err => {
+                    submitResponse.value = err.message
+                })
+                .finally(() => {
+                    snackbar.value = true
+                })
         }
 
         return {
@@ -66,7 +102,10 @@ const pmhSetup = {
             snackbar,
             save,
             submitResponse,
-            testNotif
+            testNotif,
+            dialog,
+            nomorTelpPenerima,
+            rules
         }
     }
 }

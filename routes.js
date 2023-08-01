@@ -25,6 +25,13 @@ const routes = [
             res.sendFile('pages/beranda.html')
         }
     },
+    {
+        url: "/ppp_page",
+        method: "GET",
+        handler: (req, res) => {
+            res.sendFile('pages/ppp.html')
+        }
+    },
     ...pmhRoute
 ];
 

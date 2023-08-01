@@ -31,7 +31,7 @@
                     <v-btn @click="save" :disabled="submitLoading" class="mr-md-2" color="green">
                         Simpan
                     </v-btn>
-                    <v-btn color="indigo">Test</v-btn>
+                    <v-btn color="indigo" @click="dialog = true">Test</v-btn>
                 </v-card-item>
 
             </v-card>
@@ -60,5 +60,16 @@
             </v-btn>
         </template>
     </v-snackbar>
-
+    <v-dialog v-model="dialog" width="600">
+        <v-card>
+            <v-card-text>
+                <v-text-field type="number" :rules="rules" v-model="nomorTelpPenerima"
+                    label="Masukan nomor telepon penerima"></v-text-field>
+                <v-btn @click="testNotif" color="indigo">Kirim</v-btn>
+            </v-card-text>
+            <v-card-actions>
+                <v-btn color="primary" block @click="dialog = false">Close</v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
 </v-container>
