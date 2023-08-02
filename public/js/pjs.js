@@ -1,6 +1,6 @@
 const { ref, onMounted, reactive } = Vue;
 
-const pppSetup = {
+const pjsSetup = {
     setup() {
         const loading = reactive({
             submit: false,
@@ -22,7 +22,7 @@ const pppSetup = {
         const nomorTelpPenerima = ref(null);
 
         onMounted(() => {
-            fetch('/ppp_data')
+            fetch('/pjs_data')
                 .then(res => {
                     if (!res.ok) {
                         throw new Error(res.statusText);
@@ -48,7 +48,7 @@ const pppSetup = {
         const save = async () => {
             loading.submit = true
             try {
-                const send = await fetch('/ppp_update', {
+                const send = await fetch('/pjs_update', {
                     method: "POST",
                     body: JSON.stringify({
                         id: data.value.notifikasi[0].id,
@@ -78,7 +78,7 @@ const pppSetup = {
                 return;
             }
 
-            fetch('/ppp_test_notif', {
+            fetch('/pjs_test_notif', {
                 method: "POST",
                 body: JSON.stringify({
                     number: nomorTelpPenerima.value,
@@ -119,4 +119,4 @@ const pppSetup = {
     }
 }
 
-export default pppSetup;
+export default pjsSetup;

@@ -1,3 +1,5 @@
+import phsRoute from "./services/Phs/route.js";
+import pjsRoute from "./services/Pjs/route.js";
 import pmhRoute from "./services/Pmh/route.js";
 import pppRoute from "./services/Ppp/route.js";
 /**
@@ -26,7 +28,9 @@ const routes = [
         }
     },
     ...pmhRoute,
-    ...pppRoute
+    ...pppRoute,
+    ...pjsRoute,
+    ...phsRoute
 ];
 
 export default routes;

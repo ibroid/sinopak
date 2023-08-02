@@ -1,0 +1,91 @@
+<v-container class="ma-lg-5">
+    <h3>Notifikasi Penetapan Hari Sidang Pertama</h3>
+    <v-alert v-if="!loading.fetch">
+        <v-alert-title>Loading data ...</v-alert-title>
+    </v-alert>
+    <v-alert class="bg-red" v-if="error.fetch">
+        <v-alert-title>Error fetching data. {{error.fetch}}</v-alert-title>
+    </v-alert>
+    <v-row no-gutters>
+        <v-col sm="4" cols="12">
+            <v-card class="ma-md-2 ">
+                <v-card-title class="bg-indigo">Event</v-card-title>
+                <v-card-text>
+                    Notifikasi ini berjalan saat petugas membuat penetapan majelis hakim pada menu penetapan di SIPP
+                </v-card-text>
+                <v-card-text>
+                    Filename : <br>
+                    Tujuan :
+                </v-card-text>
+                <v-card-title class="bg-pink-lighten-1">Konfigurasi</v-card-title>
+                <v-card-text>
+                    Silahkan konfigurasi pesan notifikasi disini
+                </v-card-text>
+                <v-card-item>
+                    <v-progress-linear color="primary" indeterminate></v-progress-linear>
+                    <v-textarea></v-textarea>
+                    <v-card-subtitle class="text-red">*Kata di dalam tanda kurung adalah variabel</v-card-subtitle>
+                    <v-btn class="mr-md-2" color="green">
+                        Simpan
+                    </v-btn>
+                    <v-btn color="indigo">Test</v-btn>
+                </v-card-item>
+
+            </v-card>
+        </v-col>
+        <v-col sm="4" cols="12">
+            <v-card class="ma-md-2 ">
+                <v-card-title class="bg-indigo">Event</v-card-title>
+                <v-card-text>
+                    Notifikasi ini berjalan saat petugas membuat penetapan majelis hakim pada menu penetapan di SIPP
+                </v-card-text>
+                <v-card-text>
+                    Filename : <br>
+                    Tujuan :
+                </v-card-text>
+                <v-card-title class="bg-pink-lighten-1">Konfigurasi</v-card-title>
+                <v-card-text>
+                    Silahkan konfigurasi pesan notifikasi disini
+                </v-card-text>
+                <v-card-item>
+                    <v-progress-linear color="primary" indeterminate></v-progress-linear>
+                    <v-textarea></v-textarea>
+                    <v-card-subtitle class="text-red">*Kata di dalam tanda kurung adalah variabel</v-card-subtitle>
+                    <v-btn class="mr-md-2" color="green">
+                        Simpan
+                    </v-btn>
+                    <v-btn color="indigo">Test</v-btn>
+                </v-card-item>
+
+            </v-card>
+        </v-col>
+        <v-col sm="4" cols="12">
+            <v-card class="ma-md-2 ">
+                <v-card-title class="bg-indigo">Event</v-card-title>
+                <v-card-text>
+                    Notifikasi ini berjalan saat petugas membuat penetapan majelis hakim pada menu penetapan di SIPP
+                </v-card-text>
+                <v-card-text>
+                    Filename : <br>
+                    Tujuan :
+                </v-card-text>
+                <v-card-title class="bg-pink-lighten-1">Konfigurasi</v-card-title>
+                <v-card-text>
+                    Silahkan konfigurasi pesan notifikasi disini
+                </v-card-text>
+                <v-card-item>
+                    <v-progress-linear color="primary" indeterminate></v-progress-linear>
+                    <v-textarea></v-textarea>
+                    <v-card-subtitle class="text-red">*Kata di dalam tanda kurung adalah variabel</v-card-subtitle>
+                    <v-btn class="mr-md-2" color="green">
+                        Simpan
+                    </v-btn>
+                    <v-btn color="indigo">Test</v-btn>
+                </v-card-item>
+
+            </v-card>
+        </v-col>
+
+
+    </v-row>
+</v-container>

@@ -3,11 +3,12 @@ const { createVuetify } = Vuetify;
 const { useRouter, useRoute, START_LOCATION } = VueRouter;
 import pmhSetup from "./pmh.js";
 import pppSetup from "./ppp.js";
-
+import pjsSetup from "./pjs.js";
+import phsSetup from "./phs.js";
 async function bootstrap() {
 
     const urls = [
-        '/main_page', '/beranda_page', '/pmh_page', '/ppp_page',
+        '/main_page', '/beranda_page', '/pmh_page', '/ppp_page', '/pjs_page', '/phs_page'
     ];
 
     const fetchPages = Promise.all(
@@ -35,6 +36,12 @@ async function bootstrap() {
         },
         {
             path: '/ppp', component: { template: pages[3], ...pppSetup }
+        },
+        {
+            path: '/pjs', component: { template: pages[4], ...pjsSetup }
+        },
+        {
+            path: '/phs', component: { template: pages[5], ...phsSetup }
         },
     ]
 

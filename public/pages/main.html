@@ -15,6 +15,7 @@
             <v-list-item :onclick="() => router.replace('/')" prepend-icon="material-icons dashboard" title="Beranda"
                 value="home">
             </v-list-item>
+
             <v-list-item title="Notifikasi Penetapan"></v-list-item>
             <v-list-item :onclick="() => router.replace('/pmh')" prepend-icon="material-icons groups"
                 title="Penetapan Majelis" value="pmh">
@@ -22,10 +23,13 @@
             <v-list-item :onclick="() => router.replace('/ppp')" prepend-icon="material-icons person"
                 title="Penetapan Panitera" value="ppp">
             </v-list-item>
-            <v-list-item prepend-icon="material-icons people_alt" title="Penetapan Jurusita">
+            <v-list-item :onclick="() => router.replace('/pjs')" prepend-icon="material-icons people_alt"
+                title="Penetapan Jurusita" value="pjs">
             </v-list-item>
+
             <v-list-item title="Notifikasi Persidangan"></v-list-item>
-            <v-list-item prepend-icon="material-icons domain_verification" title="Sidang Pertama">
+            <v-list-item :onclick="() => router.replace('/phs')" prepend-icon="material-icons domain_verification"
+                title="Sidang Pertama" value="phs">
             </v-list-item>
             <v-list-item prepend-icon="material-icons event_repeat" title="Tunda Sidang">
             </v-list-item>
