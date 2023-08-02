@@ -1,42 +1,28 @@
-import { prisma as prismaSipp } from "../../db/sipp.js"
-import { prisma as prismaSinopak } from "../../db/sinopak.js"
+import prismaSipp from "../../db/sipp.js"
+import prismaSinopak from "../../db/sinopak.js"
 import { sendMessage } from "../../utils/send_wa.js"
 
 export async function sendNotif(number, text) {
-    return await fetch(process.env.HTTP_WA_API + '/api/send_text', {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            "chatId": number,
-            "text": text,
-            "session": "default"
-        })
-    }).then(res => {
-        if (!res.ok) {
-            throw new Error(res.statusText)
-        }
-        return res.json()
-    })
+
 }
 
 export async function notifText(nomorPerkara = "123/Pdt.G/2023/" + process.env.PERKARA_KODE) {
     try {
 
-        const data = await prismaSipp.perkara.findFirstOrThrow({
-            where: {
-                nomor_perkara: nomorPerkara
-            }
-        })
+        const data = await Promise.all([
+            prismaSipp.perkara.findFirstOrThrow({
+                where: {
+                    nomor_perkara: nomorPerkara
+                }
+            }),
+            prismaSinopak.notifikasi.findFirst({
+                where: {
+                    jenis_notifikasi_id: 1
+                }
+            })
+        ])
 
-        const notifikasi = await prismaSinopak.notifikasi.findFirst({
-            where: {
-                jenis_notifikasi_id: 1
-            }
-        })
-
-        return notifikasi.pesan.replace('{nomor_perkara}', data.nomor_perkara);
+        return data[1].pesan.replace('{nomor_perkara}', data[0].nomor_perkara);
 
     } catch (error) {
         console.log("error get pesan notif pmh. " + error.message)
@@ -48,6 +34,23 @@ export async function notifText(nomorPerkara = "123/Pdt.G/2023/" + process.env.P
 
 export async function sendNotifTest(number) {
     const pesan = await notifText()
-    sendMessage(number, pesan);
+    if (pesan == null) {
+        throw new Error('Terjadi kesalahan saat mengambil pesan notif')
+    }
+    sendMessage(number, pesan)
+        .then(r => {
+            saveLog(pesan, number)
+        })
+        .catch(err => console.log(err))
+}
+
+export async function saveLog(pesan, number) {
+    return prismaSinopak.log_notifikasi.create({
+        data: {
+            pesan: pesan,
+            tujuan: number,
+            jenis_notifikasi_id: 1,
+        }
+    })
 }
 

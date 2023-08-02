@@ -1,10 +1,14 @@
 import { PrismaClient } from '../prisma/generated/sinopak_client/index.js';
 
-const globalForPrisma = globalThis;
-
 /**
- * @type {import("../prisma/generated/sinopak_client/index.js").PrismaClient} 
+ * @type {import("../prisma/generated/sinopak_client/index.js").PrismaClient}
  */
-export const prisma = globalForPrisma.prisma ?? new PrismaClient()
+let prisma
 
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+if (typeof globalThis.prisma !== PrismaClient) {
+    globalThis.prisma = new PrismaClient()
+}
+
+prisma = globalThis.prisma
+
+export default prisma

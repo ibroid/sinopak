@@ -2,6 +2,7 @@ const { createApp, ref, onMounted } = Vue;
 const { createVuetify } = Vuetify;
 const { useRouter, useRoute, START_LOCATION } = VueRouter;
 import pmhSetup from "./pmh.js";
+import pppSetup from "./ppp.js";
 
 async function bootstrap() {
 
@@ -33,7 +34,7 @@ async function bootstrap() {
             path: '/pmh', component: { template: pages[2], ...pmhSetup }
         },
         {
-            path: '/ppp', component: { template: pages[3] }
+            path: '/ppp', component: { template: pages[3], ...pppSetup }
         },
     ]
 

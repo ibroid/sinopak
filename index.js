@@ -4,7 +4,7 @@ import fastifyCors from '@fastify/cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import routes from './routes.js';
-import 'dotenv/config';
+// import 'dotenv/config';
 
 const fastify = Fastify()
 

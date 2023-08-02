@@ -1,5 +1,5 @@
 import pmhRoute from "./services/Pmh/route.js";
-
+import pppRoute from "./services/Ppp/route.js";
 /**
  * @type {import("fastify/types/route").RouteOptions[]}
  */
@@ -25,14 +25,8 @@ const routes = [
             res.sendFile('pages/beranda.html')
         }
     },
-    {
-        url: "/ppp_page",
-        method: "GET",
-        handler: (req, res) => {
-            res.sendFile('pages/ppp.html')
-        }
-    },
-    ...pmhRoute
+    ...pmhRoute,
+    ...pppRoute
 ];
 
 export default routes;

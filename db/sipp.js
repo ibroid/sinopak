@@ -1,10 +1,11 @@
 import { PrismaClient } from '../prisma/generated/sipp_client/index.js'
 
-const globalForPrisma = globalThis;
+let prisma
 
-/**
- * @type {import("../prisma/generated/sipp_client/index.js").PrismaClient;}
- */
-export const prisma = globalForPrisma.prisma ?? new PrismaClient()
+if (typeof globalThis.prisma !== PrismaClient) {
+    globalThis.prisma = new PrismaClient()
+}
 
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+prisma = globalThis.prisma
+
+export default prisma

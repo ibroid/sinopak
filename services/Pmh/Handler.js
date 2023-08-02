@@ -1,6 +1,6 @@
 import { res_failed, res_success } from "../../utils/response_json.js";
-import { sendNotif } from "./Notifikasi.js";
-import { prisma } from "../../db/sinopak.js"
+import { sendNotifTest } from "./Notifikasi.js";
+import prisma from "../../db/sinopak.js"
 
 /**
  * @type {import("fastify/types/route").RouteHandler}
@@ -13,7 +13,7 @@ export function pageHandler(req, res) {
  * @type {import("fastify/types/route").RouteHandler}
  */
 export async function dataHandler(req, res) {
-
+    // console.log(process.env.MODE)
     const data = await prisma.jenis_notifikasi.findFirst({
         where: {
             key: 'pmh'
@@ -54,7 +54,7 @@ export async function saveHandler(req, res) {
  */
 export async function testNotifHandler(req, res) {
     try {
-        await sendNotif(req.body.number);
+        await sendNotifTest(req.body.number);
 
         res.status(200).send(res_success({ message: `Pesan test berhasil dikirim ke nomor ${req.body.number}` }))
     } catch (error) {

@@ -1,1 +1,70 @@
-<h1>Hello PPP</h1>
+<v-container class="ma-lg-5">
+    <h3>Notifikasi Penetapan Panitera Pengganti</h3>
+    <v-alert v-if="loading.fetch">
+        <v-alert-title>Loading data ...</v-alert-title>
+    </v-alert>
+    <v-alert class="bg-red" v-if="error.fetch">
+        <v-alert-title>Error fetching data. {{error}}</v-alert-title>
+    </v-alert>
+    <v-row no-gutters>
+        <v-col class="ma-md-2" md="4">
+            <v-card class="mb-lg-5 ">
+                <v-card-title class="bg-indigo">Event</v-card-title>
+                <v-card-text>
+                    Notifikasi ini berjalan saat petugas membuat penetapan majelis hakim pada menu penetapan di SIPP
+                </v-card-text>
+                <v-card-text>
+                    Filename : <br>
+                    Tujuan :
+                </v-card-text>
+            </v-card>
+
+            <v-card>
+                <v-card-title class="bg-pink-lighten-1">Konfigurasi</v-card-title>
+                <v-card-text>
+                    Silahkan konfigurasi pesan notifikasi disini
+                </v-card-text>
+                <v-card-item>
+                    <v-progress-linear v-if="submitLoading" color="primary" indeterminate></v-progress-linear>
+                    <v-textarea :disabled="submitLoading"></v-textarea>
+                    <v-card-subtitle class="text-red">*Kata di dalam tanda kurung adalah variabel</v-card-subtitle>
+                    <v-btn @click="save" :disabled="submitLoading" class="mr-md-2" color="green">
+                        Simpan
+                    </v-btn>
+                    <v-btn color="indigo" @click="dialog = true">Test</v-btn>
+                </v-card-item>
+
+            </v-card>
+        </v-col>
+        <v-col class="ma-md-2">
+            <v-card class="mb-lg-5">
+                <v-card-title class="bg-indigo">Riwayat</v-card-title>
+                <v-card-item>
+                    <v-list :height="600">
+
+                    </v-list>
+                </v-card-item>
+            </v-card>
+        </v-col>
+    </v-row>
+    <v-snackbar v-model="snackbar" :timeout="2000">
+        {{submitResponse}}
+        <template v-slot:actions>
+            <v-btn color="blue" variant="text" @click="snackbar = false">
+                Close
+            </v-btn>
+        </template>
+    </v-snackbar>
+    <v-dialog v-model="dialog" width="600">
+        <v-card>
+            <v-card-text>
+                <v-text-field type="number" :rules="rules" v-model="nomorTelpPenerima"
+                    label="Masukan nomor telepon penerima"></v-text-field>
+                <v-btn @click="testNotif" color="indigo">Kirim</v-btn>
+            </v-card-text>
+            <v-card-actions>
+                <v-btn color="primary" block @click="dialog = false">Close</v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
+</v-container>

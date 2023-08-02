@@ -1,7 +1,6 @@
-import "dotenv/config.js";
 
 export async function sendMessage(number, text) {
-    return await fetch(process.env.HTTP_WA_API + '/api/send_text', {
+    return await fetch(process.env.HTTP_WA_API + '/api/sendText', {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'

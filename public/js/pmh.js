@@ -91,6 +91,7 @@ const pmhSetup = {
                 })
                 .finally(() => {
                     snackbar.value = true
+                    dialog.value = false
                 })
         }
 
