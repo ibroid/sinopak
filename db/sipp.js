@@ -1,11 +1,18 @@
 import { PrismaClient } from '../prisma/generated/sipp_client/index.js'
 
+/**
+ * @type {import("../prisma/generated/sipp_client/index.js").PrismaClient}
+ */
 let prisma
 
-if (typeof globalThis.prisma !== PrismaClient) {
-    globalThis.prisma = new PrismaClient()
+if (process.env.NODE_ENV === "production") {
+    prisma = new PrismaClient();
+} else {
+    if (typeof globalThis.prisma !== PrismaClient) {
+        globalThis.prisma = new PrismaClient()
+    }
+    prisma = globalThis.prisma
 }
 
-prisma = globalThis.prisma
 
 export default prisma

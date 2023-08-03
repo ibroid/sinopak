@@ -30,8 +30,7 @@ export async function saveHandler(req, res) {
                 id: parseInt(req.body.id)
             },
             data: {
-                pesan: req.body.pesan,
-                tujuan: 0,
+                pesan: req.body.pesan
             }
         })
         res.status(201).send(res_success({ message: "Berhasil menyimpan data", data: data }))
@@ -43,11 +42,14 @@ export async function saveHandler(req, res) {
 
 export async function testNotifHandler(req, res) {
     try {
-        await sendNotifTest(req.body.number);
+        await sendNotifTest(req.body);
 
-        res.status(200).send(res_success({ message: `Pesan test berhasil dikirim ke nomor ${req.body.number}` }))
+        res.status(200)
+            .send(res_success({ message: `Pesan test berhasil dikirim ke nomor ${req.body.number}` }))
     } catch (error) {
-        res.status(400).send(res_failed({ message: `Pesan test gagal dikirim. ${error.message}` }))
+        console.log(error)
+        res.status(400)
+            .send(res_failed({ message: `Pesan test gagal dikirim. ${error.message}` }))
     }
 
 }
