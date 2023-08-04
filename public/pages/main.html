@@ -31,7 +31,8 @@
             <v-list-item :onclick="() => router.replace('/phs')" prepend-icon="material-icons domain_verification"
                 title="Sidang Pertama" value="phs">
             </v-list-item>
-            <v-list-item prepend-icon="material-icons event_repeat" title="Tunda Sidang">
+            <v-list-item :onclick="() => router.replace('/pts')" prepend-icon="material-icons event_repeat"
+                title="Tunda Sidang" value="">
             </v-list-item>
             <v-list-item prepend-icon="material-icons rule_folder" title="Putus Verstek">
             </v-list-item>

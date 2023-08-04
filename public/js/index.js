@@ -1,14 +1,17 @@
 const { createApp, ref, onMounted } = Vue;
 const { createVuetify } = Vuetify;
 const { useRouter, useRoute, START_LOCATION } = VueRouter;
+
 import pmhSetup from "./pmh.js";
 import pppSetup from "./ppp.js";
 import pjsSetup from "./pjs.js";
 import phsSetup from "./phs.js";
+import ptsSetup from "./Pts.js";
+
 async function bootstrap() {
 
     const urls = [
-        '/main_page', '/beranda_page', '/pmh_page', '/ppp_page', '/pjs_page', '/phs_page'
+        '/main_page', '/beranda_page', '/pmh_page', '/ppp_page', '/pjs_page', '/phs_page', '/pts_page'
     ];
 
     const fetchPages = Promise.all(
@@ -42,6 +45,9 @@ async function bootstrap() {
         },
         {
             path: '/phs', component: { template: pages[5], ...phsSetup }
+        },
+        {
+            path: '/pts', component: { template: pages[6], ...ptsSetup }
         },
     ]
 

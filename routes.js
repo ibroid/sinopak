@@ -2,6 +2,8 @@ import phsRoute from "./services/Phs/route.js";
 import pjsRoute from "./services/Pjs/route.js";
 import pmhRoute from "./services/Pmh/route.js";
 import pppRoute from "./services/Ppp/route.js";
+import ptsRoute from "./services/Pts/route.js";
+
 /**
  * @type {import("fastify/types/route").RouteOptions[]}
  */
@@ -30,7 +32,8 @@ const routes = [
     ...pmhRoute,
     ...pppRoute,
     ...pjsRoute,
-    ...phsRoute
+    ...phsRoute,
+    ...ptsRoute,
 ];
 
 export default routes;

@@ -6,13 +6,13 @@ import { sendNotifTest } from "./Notifikasi.js";
  * @type {import("fastify/types/route").RouteHandler}
  */
 export function pageHandler(req, res) {
-    res.sendFile('pages/phs.html')
+    res.sendFile('pages/pts.html')
 }
 
 export async function dataHandler(req, res) {
     const data = await prisma.jenis_notifikasi.findFirst({
         where: {
-            key: 'phs'
+            key: 'pts'
         },
         include: {
             log_notifikasi: true,

@@ -20,8 +20,8 @@ model jenis_notifikasi {
 
 model log_notifikasi {
   id                  Int               @id @default(autoincrement())
-  jenis_notifikasi_id Int?
-  pesan               String            @db.Text
+  jenis_notifikasi_id Int
+  pesan               String            @db.MediumText
   tujuan              String            @db.VarChar(15)
   created_at          DateTime          @default(now()) @db.Timestamp(0)
   updated_at          DateTime?         @db.Timestamp(0)
@@ -30,11 +30,20 @@ model log_notifikasi {
 
 model notifikasi {
   id                  Int               @id @default(autoincrement())
-  jenis_notifikasi_id Int?
-  tujuan              Int               @default(0)
-  pesan               String            @db.Text
+  jenis_notifikasi_id Int
+  tujuan_id           Int
+  pesan               String            @db.MediumText
   filename            String?           @db.VarChar(255)
   created_at          DateTime          @default(now()) @db.Timestamp(0)
   updated_at          DateTime?         @db.Timestamp(0)
+  tujuan              tujuan            @relation(fields: [tujuan_id], references: [id])
   jenis_notifikasi    jenis_notifikasi? @relation(fields: [jenis_notifikasi_id], references: [id])
+}
+
+model tujuan {
+  id         Int          @id @default(autoincrement())
+  nama       String?      @db.VarChar(24)
+  created_at DateTime     @default(now()) @db.Timestamp(0)
+  updated_at DateTime?    @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
+  notifikasi notifikasi[]
 }
