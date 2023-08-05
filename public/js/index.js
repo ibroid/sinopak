@@ -7,11 +7,15 @@ import pppSetup from "./ppp.js";
 import pjsSetup from "./pjs.js";
 import phsSetup from "./phs.js";
 import ptsSetup from "./Pts.js";
+import spvSetup from "./spv.js";
+import prsSetup from "./prs.js";
+import pacSetup from "./pac.js";
+import purSetup from "./pur.js";
 
 async function bootstrap() {
 
     const urls = [
-        '/main_page', '/beranda_page', '/pmh_page', '/ppp_page', '/pjs_page', '/phs_page', '/pts_page'
+        '/main_page', '/beranda_page', '/pmh_page', '/ppp_page', '/pjs_page', '/phs_page', '/pts_page', '/spv_page', '/prs_page', '/pac_page', '/pur_page'
     ];
 
     const fetchPages = Promise.all(
@@ -48,6 +52,18 @@ async function bootstrap() {
         },
         {
             path: '/pts', component: { template: pages[6], ...ptsSetup }
+        },
+        {
+            path: '/spv', component: { template: pages[7], ...spvSetup }
+        },
+        {
+            path: '/prs', component: { template: pages[8], ...prsSetup }
+        },
+        {
+            path: '/pac', component: { template: pages[9], ...pacSetup }
+        },
+        {
+            path: '/pur', component: { template: pages[10], ...purSetup }
         },
     ]
 

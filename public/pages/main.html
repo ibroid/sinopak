@@ -34,14 +34,18 @@
             <v-list-item :onclick="() => router.replace('/pts')" prepend-icon="material-icons event_repeat"
                 title="Tunda Sidang" value="">
             </v-list-item>
-            <v-list-item prepend-icon="material-icons rule_folder" title="Putus Verstek">
+            <v-list-item :onclick="() => router.replace('/spv')" prepend-icon="material-icons rule_folder"
+                title="Putus Verstek" value="spv">
             </v-list-item>
-            <v-list-item prepend-icon="material-icons card_giftcard" title="Peringatan Relaas">
+            <v-list-item :onclick="() => router.replace('/prs')" prepend-icon="material-icons card_giftcard"
+                title="Peringatan Relaas" value="prs">
             </v-list-item>
             <v-list-item title="Notifikasi Berkas"></v-list-item>
-            <v-list-item prepend-icon="material-icons card_membership" title="Akta Cerai">
+            <v-list-item :onclick="() => router.replace('/pac')" prepend-icon="material-icons card_membership"
+                title="Akta Cerai" value="pac">
             </v-list-item>
-            <v-list-item prepend-icon="material-icons approval" title="Relaas Panggilan">
+            <v-list-item :onclick="() => router.replace('/pur')" prepend-icon="material-icons approval"
+                title="Relaas Panggilan" value="pur">
             </v-list-item>
         </v-list>
     </v-navigation-drawer>
