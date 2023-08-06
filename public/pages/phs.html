@@ -34,6 +34,22 @@
             </v-card>
         </v-col>
     </v-row>
+    <v-row v-if="!loading.fetch">
+        <v-col>
+            <v-card class="mb-lg-5">
+                <v-card-title class="bg-indigo">Riwayat</v-card-title>
+                <v-card-item>
+                    <v-list :height="600">
+                        <v-list-item v-for="(log, i) in data.log_notifikasi" key="i">
+                            <v-list-item-title>{{log.tujuan}}</v-list-item-title>
+                            <v-list-item-text> - {{log.pesan}}</v-list-item-text>
+                            <v-divider />
+                        </v-list-item>
+                    </v-list>
+                </v-card-item>
+            </v-card>
+        </v-col>
+    </v-row>
     <v-snackbar v-model="snackbar.open" :timeout="2000">
         {{snackbar.message}}
         <template v-slot:actions>

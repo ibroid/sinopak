@@ -20,7 +20,11 @@ export async function dataHandler(req, res) {
         },
         include: {
             log_notifikasi: true,
-            notifikasi: true
+            notifikasi: {
+                include: {
+                    tujuan: true
+                }
+            }
         }
     })
 

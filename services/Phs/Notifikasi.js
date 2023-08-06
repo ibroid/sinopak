@@ -2,14 +2,20 @@ import prismaSipp from "../../db/sipp.js"
 import prismaSinopak from "../../db/sinopak.js"
 import { sendMessage } from "../../utils/send_wa.js"
 import { dateIndo } from "../../utils/date_helper.js";
+import { logSave } from "../../utils/log_save.js";
 
 export async function sendNotifTest(request) {
     const pesan = await notifText(request.notifikasi_id);
-    if (pesan == null) {
+    if (pesan.text == null) {
         throw new Error('Terjadi kesalahan saat mengambil pesan notif')
     }
-    await sendMessage(request.number, pesan)
-    // saveLog(pesan, request.number, request.id)
+    await sendMessage(request.number, pesan.text)
+    await logSave({
+        id: request.notifikasi_id,
+        pesan: pesan.text,
+        number: request.number,
+        tujuan: pesan.tujuan
+    })
 }
 
 export async function notifText(notifikasi_id) {
@@ -39,6 +45,9 @@ export async function notifText(notifikasi_id) {
         prismaSinopak.notifikasi.findFirst({
             where: {
                 id: notifikasi_id
+            },
+            include: {
+                tujuan: true
             }
         })
     ])
@@ -62,7 +71,7 @@ export async function notifText(notifikasi_id) {
         .replace('{data_pihak_satu}', dataPihakSatu)
         .replace('{data_pihak_dua}', dataPihakDua)
 
-    return pesan;
+    return { text: pesan, tujuan: data[1].tujuan.nama };
 
 
 }

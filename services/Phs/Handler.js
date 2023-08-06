@@ -47,7 +47,6 @@ export async function saveHandler(req, res) {
 export async function testNotifHandler(req, res) {
     try {
         await sendNotifTest(req.body);
-
         res.status(200)
             .send(res_success({ message: `Pesan test berhasil dikirim ke nomor ${req.body.number}` }))
     } catch (error) {

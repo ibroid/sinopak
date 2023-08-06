@@ -36,11 +36,8 @@ export async function sendNotifTest(number) {
     if (pesan == null) {
         throw new Error('Terjadi kesalahan saat mengambil pesan notif')
     }
-    sendMessage(number, pesan)
-        .then(r => {
-            saveLog(pesan, number)
-        })
-        .catch(err => console.log(err))
+    await sendMessage(number, pesan)
+    saveLog(pesan, number)
 }
 
 export async function saveLog(pesan, number) {

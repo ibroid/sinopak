@@ -103,7 +103,8 @@ async function bootstrap() {
         }
     });
 
-    app.use(router).use(vuetify).mount('#app')
+    await app.use(router).use(vuetify).mount('#app')
+
 }
 
-bootstrap()
+bootstrap().catch(err => document.querySelector("#app").innerHTML = "<h1>Failed initialize UI. Error :" + err + "</h1>")
