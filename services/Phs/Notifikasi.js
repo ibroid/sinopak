@@ -67,7 +67,13 @@ export async function notifText(notifikasi_id) {
         .replace('{nomor_perkara}', data[0].nomor_perkara)
         .replace('{tanggal_sidang}', dateIndo(data[0].perkara_jadwal_sidang[0].tanggal_sidang))
         .replace('{agenda_sidang}', data[0].perkara_jadwal_sidang[0].agenda)
-        .replace('{para_pihak}', data[0].para_pihak)
+        .replace('{para_pihak}',
+            data[0].para_pihak
+                .replace('<br />', '\n')
+                .replace('<br />', '\n')
+                .replace('<br />', '\n')
+                .replace('<br />', '\n')
+        )
         .replace('{data_pihak_satu}', dataPihakSatu)
         .replace('{data_pihak_dua}', dataPihakDua)
 

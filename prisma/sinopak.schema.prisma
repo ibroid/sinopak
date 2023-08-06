@@ -14,17 +14,19 @@ model jenis_notifikasi {
   key             String           @db.VarChar(64)
   created_at      DateTime         @default(now()) @db.Timestamp(0)
   updated_at      DateTime?        @db.Timestamp(0)
-  log_notifikasi  log_notifikasi[]
   notifikasi      notifikasi[]
+  log_notifikasi  log_notifikasi[]
 }
 
 model log_notifikasi {
   id                  Int               @id @default(autoincrement())
   jenis_notifikasi_id Int
   pesan               String            @db.MediumText
-  tujuan              String            @db.VarChar(15)
-  created_at          DateTime          @default(now()) @db.Timestamp(0)
+  tujuan              String            @db.VarChar(10)
+  waktu               String?           @db.VarChar(90)
   updated_at          DateTime?         @db.Timestamp(0)
+  number              String?           @db.VarChar(15)
+  created_at          DateTime          @default(now()) @db.Timestamp(0)
   jenis_notifikasi    jenis_notifikasi? @relation(fields: [jenis_notifikasi_id], references: [id])
 }
 
@@ -36,14 +38,14 @@ model notifikasi {
   filename            String?           @db.VarChar(255)
   created_at          DateTime          @default(now()) @db.Timestamp(0)
   updated_at          DateTime?         @db.Timestamp(0)
-  tujuan              tujuan            @relation(fields: [tujuan_id], references: [id])
   jenis_notifikasi    jenis_notifikasi? @relation(fields: [jenis_notifikasi_id], references: [id])
+  tujuan              tujuan?           @relation(fields: [tujuan_id], references: [id])
 }
 
 model tujuan {
   id         Int          @id @default(autoincrement())
   nama       String?      @db.VarChar(24)
   created_at DateTime     @default(now()) @db.Timestamp(0)
-  updated_at DateTime?    @default(dbgenerated("('0000-00-00 00:00:00')")) @db.Timestamp(0)
-  notifikasi notifikasi[]
+  updated_at DateTime?    @db.Timestamp(0)
+  tujuan     notifikasi[]
 }

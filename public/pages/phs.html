@@ -41,8 +41,9 @@
                 <v-card-item>
                     <v-list :height="600">
                         <v-list-item v-for="(log, i) in data.log_notifikasi" key="i">
-                            <v-list-item-title>{{log.tujuan}}</v-list-item-title>
-                            <v-list-item-text> - {{log.pesan}}</v-list-item-text>
+                            <v-list-item-subtitle>{{log.number}} ({{log.tujuan}})</v-list-item-subtitle>
+                            <v-list-item-text>{{log.pesan}}</v-list-item-text>
+                            <v-list-item-subtitle>{{log.waktu}}</v-list-item-subtitle>
                             <v-divider />
                         </v-list-item>
                     </v-list>

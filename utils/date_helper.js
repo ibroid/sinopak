@@ -6,3 +6,9 @@ export function dateIndo(date) {
     moment.locale('id');
     return tanggal.format("dddd, DD MMMM YYYY");
 }
+
+export function waktuSekarang() {
+    const tanggal = moment(Date.now());
+    moment.locale('id');
+    return tanggal.format("LLLL");
+}
