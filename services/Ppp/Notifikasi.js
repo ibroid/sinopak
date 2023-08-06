@@ -1,51 +1,66 @@
 import prismaSipp from "../../db/sipp.js"
 import prismaSinopak from "../../db/sinopak.js"
 import { sendMessage } from "../../utils/send_wa.js"
+import { logSave } from "../../utils/log_save.js";
 
-export async function sendNotifTest(number) {
-    try {
-        const pesan = await notifText()
-        if (pesan == null) {
-            throw new Error('Terjadi kesalahan saat mengambil pesan notif')
-        }
-        await sendMessage(number, pesan)
-        saveLog(pesan, number)
-    } catch (error) {
-        throw new Error(error)
+export async function sendNotifTest(request) {
+    const pesan = await notifText(request.notifikasi_id);
+    if (pesan.text == null) {
+        throw new Error('Terjadi kesalahan saat mengambil pesan notif')
     }
+    try {
+        await sendMessage(request.number, pesan.text)
+        // console.log(pesan)
+    } catch (error) {
+        console.log("error saat send message :" + error)
+    }
+
+    try {
+        await logSave({
+            id: pesan.jenis_notifikasi_id,
+            pesan: pesan.text,
+            number: request.number,
+            tujuan: pesan.tujuan
+        })
+    } catch (error) {
+        console.log("error saat log save :" + error)
+    }
+
 }
 
-export async function notifText(nomorPerkara = "123/Pdt.G/2023/" + process.env.PERKARA_KODE) {
-    try {
+export async function notifText(notifikasi_id) {
 
-        const data = await Promise.all([
-            prismaSipp.perkara.findFirstOrThrow({
-                where: {
-                    nomor_perkara: nomorPerkara
-                }
-            }),
-            prismaSinopak.notifikasi.findFirst({
-                where: {
-                    jenis_notifikasi_id: 2
-                }
-            })
-        ])
+    const data = await Promise.all([
+        prismaSipp.perkara.findFirstOrThrow({
+            select: {
+                nomor_perkara: true,
+            },
+            where: {
+                nomor_perkara: "123/Pdt.G/2023/" + process.env.PERKARA_KODE,
+            }
+        }),
+        prismaSinopak.notifikasi.findFirst({
+            where: {
+                id: notifikasi_id
+            },
+            include: {
+                tujuan: true
+            }
+        })
+    ])
 
-        return data[1].pesan.replace('{nomor_perkara}', data[0].nomor_perkara);
+    const pesan = data[1].pesan
+        .replace('{nomor_perkara}', data[0].nomor_perkara)
 
-    } catch (error) {
-        console.log("error get pesan notif ppp. " + error.message)
-
-        return null;
-    }
+    return { text: pesan, tujuan: data[1].tujuan.nama, jenis_notifikasi_id: data[1].jenis_notifikasi_id };
 }
 
-export async function saveLog(pesan, number) {
+export async function saveLog(pesan, number, id) {
     return prismaSinopak.log_notifikasi.create({
         data: {
             pesan: pesan,
             tujuan: number,
-            jenis_notifikasi_id: 2,
+            jenis_notifikasi_id: id,
         }
     })
 }

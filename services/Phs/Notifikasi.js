@@ -11,7 +11,7 @@ export async function sendNotifTest(request) {
     }
     await sendMessage(request.number, pesan.text)
     await logSave({
-        id: request.notifikasi_id,
+        id: pesan.jenis_notifikasi_id,
         pesan: pesan.text,
         number: request.number,
         tujuan: pesan.tujuan
@@ -77,7 +77,7 @@ export async function notifText(notifikasi_id) {
         .replace('{data_pihak_satu}', dataPihakSatu)
         .replace('{data_pihak_dua}', dataPihakDua)
 
-    return { text: pesan, tujuan: data[1].tujuan.nama };
+    return { text: pesan, tujuan: data[1].tujuan.nama, jenis_notifikasi_id: data[1].jenis_notifikasi_id };
 
 
 }

@@ -1,50 +1,49 @@
 <v-container class="ma-lg-5">
-    <h3>Notifikasi Penetapan Jurusira/Jurusita Pengganti</h3>
+    <h3>Notifikasi Penunjukan Jurusita & Jurusita Pengganti</h3>
     <v-alert v-if="loading.fetch">
         <v-alert-title>Loading data ...</v-alert-title>
     </v-alert>
     <v-alert class="bg-red" v-if="error.fetch">
         <v-alert-title>Error fetching data. {{error.fetch}}</v-alert-title>
     </v-alert>
-    <v-row no-gutters v-if="!error.fetch && !loading.fetch">
-        <v-col class="ma-md-2" md="4">
-            <v-card class="mb-lg-5 ">
+    <v-row no-gutters v-if="!loading.fetch">
+        <v-col v-for="(notifikasi,  index) in data.notifikasi">
+            <v-card class="ma-md-2 ">
                 <v-card-title class="bg-indigo">Event</v-card-title>
                 <v-card-text>
-                    Notifikasi ini berjalan saat petugas membuat penetapan Panitera Pengganti pada menu penetapan di
-                    SIPP
+                    Notifikasi ini berjalan saat petugas membuat penetapan Jurusita pada menu penetapan di SIPP
                 </v-card-text>
                 <v-card-text>
-                    Filename : {{data.notifikasi[0].filename}} <br>
-                    Tujuan : {{ data.notifikasi[0].tujuan.nama }}
+                    Filename : {{notifikasi.filename}} <br>
+                    Tujuan : {{notifikasi.tujuan.nama}}
                 </v-card-text>
-            </v-card>
-
-            <v-card>
                 <v-card-title class="bg-pink-lighten-1">Konfigurasi</v-card-title>
                 <v-card-text>
                     Silahkan konfigurasi pesan notifikasi disini
                 </v-card-text>
                 <v-card-item>
-                    <v-progress-linear v-if="loading.submit" color="primary" indeterminate></v-progress-linear>
-                    <v-textarea v-model="data.notifikasi[0].pesan" :disabled="loading.submit"></v-textarea>
+                    <v-progress-linear v-if="loading.submit[index]" color="primary" indeterminate></v-progress-linear>
+                    <v-textarea :disabled="loading.submit[index]" v-model="notifikasi.pesan"></v-textarea>
                     <v-card-subtitle class="text-red">*Kata di dalam tanda kurung adalah variabel</v-card-subtitle>
-                    <v-btn @click="save" :disabled="loading.submit" class="mr-md-2" color="green">
+                    <v-btn :disabled="loading.submit[index]" :onclick="() => save(index)" class="mr-md-2" color="green">
                         Simpan
                     </v-btn>
-                    <v-btn color="indigo" @click="dialog = true">Test</v-btn>
+                    <v-btn color="indigo" @click="() => {dialog = true; selectedIndex = index}">Test</v-btn>
                 </v-card-item>
 
             </v-card>
         </v-col>
-        <v-col class="ma-md-2">
+    </v-row>
+    <v-row v-if="!loading.fetch">
+        <v-col>
             <v-card class="mb-lg-5">
                 <v-card-title class="bg-indigo">Riwayat</v-card-title>
                 <v-card-item>
                     <v-list :height="600">
                         <v-list-item v-for="(log, i) in data.log_notifikasi" key="i">
-                            <v-list-item-title>{{log.tujuan}}</v-list-item-title>
-                            <v-list-item-text>{{log.created_at}} - {{log.pesan}}</v-list-item-text>
+                            <v-list-item-text>{{++i}}. {{log.number}} ({{log.tujuan}}) - {{log.waktu}}
+                            </v-list-item-text>
+                            <v-list-item-subtitle>{{log.pesan}}</v-list-item-subtitle>
                             <v-divider />
                         </v-list-item>
                     </v-list>

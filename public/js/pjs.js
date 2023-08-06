@@ -1,15 +1,16 @@
-const { ref, onMounted, reactive } = Vue;
+const { reactive, ref, onMounted } = Vue;
+import { useWebSocket } from "./Websocket.js";
 
 const pjsSetup = {
     setup() {
         const loading = reactive({
-            submit: false,
-            fetch: true
+            fetch: true,
+            submit: []
         })
 
         const error = reactive({
-            submit: false,
-            fetch: false
+            fetch: false,
+            submit: []
         })
 
         const snackbar = reactive({
@@ -19,7 +20,22 @@ const pjsSetup = {
 
         const data = ref(null)
         const dialog = ref(false)
-        const nomorTelpPenerima = ref(null);
+        const selectedIndex = ref(null)
+        const nomorTelpPenerima = ref(null)
+
+        const { isConnected, socket } = useWebSocket('ws://localhost:3000/log_event');
+
+        onMounted(() => {
+            if (isConnected) {
+                snackbar.open = true;
+                snackbar.message = "Berhasil Terhubung ke Websocket"
+            }
+        })
+
+        socket.onmessage = (event) => {
+            const eventData = JSON.parse(event.data)
+            data.value.log_notifikasi.push(eventData.payload)
+        }
 
         onMounted(() => {
             fetch('/pjs_data')
@@ -32,6 +48,12 @@ const pjsSetup = {
                 .then(res => {
                     // console.log(res.data)
                     data.value = res.data;
+                    res.data.notifikasi.forEach((row, i) => {
+                        loading.submit[i] = false;
+                    });
+                    res.data.notifikasi.forEach((row, i) => {
+                        error.submit[i] = false;
+                    });
                 })
                 .catch(err => {
                     console.log(err)
@@ -40,19 +62,14 @@ const pjsSetup = {
                 .finally(() => loading.fetch = false)
         })
 
-        const rules = [
-            value => !!value || 'Required.',
-            value => (value && value.length >= 3) || 'Min 3 characters',
-        ]
-
-        const save = async () => {
-            loading.submit = true
+        const save = async (index) => {
+            loading.submit[index] = true
             try {
                 const send = await fetch('/pjs_update', {
                     method: "POST",
                     body: JSON.stringify({
-                        id: data.value.notifikasi[0].id,
-                        pesan: data.value.notifikasi[0].pesan,
+                        id: data.value.notifikasi[index].id,
+                        pesan: data.value.notifikasi[index].pesan,
                     }),
                     headers: {
                         'Content-Type': 'application/json'
@@ -69,7 +86,7 @@ const pjsSetup = {
             } catch (error) {
                 snackbar.message = error
             }
-            loading.submit = false;
+            loading.submit[index] = false;
             snackbar.open = true;
         }
 
@@ -78,10 +95,15 @@ const pjsSetup = {
                 return;
             }
 
+            if (selectedIndex.value == null) {
+                return;
+            }
+
             fetch('/pjs_test_notif', {
                 method: "POST",
                 body: JSON.stringify({
                     number: nomorTelpPenerima.value,
+                    notifikasi_id: data.value.notifikasi[selectedIndex.value].id
                 }),
                 headers: {
                     'Content-Type': 'application/json'
@@ -105,16 +127,17 @@ const pjsSetup = {
                 })
         }
 
+
         return {
-            nomorTelpPenerima,
-            testNotif,
-            snackbar,
             loading,
-            dialog,
             error,
+            dialog,
             data,
             save,
-            rules
+            snackbar,
+            selectedIndex,
+            testNotif,
+            nomorTelpPenerima
         }
     }
 }

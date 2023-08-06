@@ -1,17 +1,43 @@
-const { ref, onMounted, reactive } = Vue;
+const { reactive, ref, onMounted } = Vue;
+import { useWebSocket } from "./Websocket.js";
 
 const pmhSetup = {
     setup() {
+        const loading = reactive({
+            fetch: true,
+            submit: []
+        })
+
+        const error = reactive({
+            fetch: false,
+            submit: []
+        })
+
+        const snackbar = reactive({
+            open: false,
+            message: null
+        })
+
         const data = ref(null)
-        const error = ref(false)
-        const loading = ref(true)
-        const snackbar = ref(false)
-        const submitLoading = ref(false)
-        const submitResponse = ref(null)
         const dialog = ref(false)
+        const selectedIndex = ref(null)
         const nomorTelpPenerima = ref(null)
 
-        onMounted(function () {
+        const { isConnected, socket } = useWebSocket('ws://localhost:3000/log_event');
+
+        onMounted(() => {
+            if (isConnected) {
+                snackbar.open = true;
+                snackbar.message = "Berhasil Terhubung ke Websocket"
+            }
+        })
+
+        socket.onmessage = (event) => {
+            const eventData = JSON.parse(event.data)
+            data.value.log_notifikasi.push(eventData.payload)
+        }
+
+        onMounted(() => {
             fetch('/pmh_data')
                 .then(res => {
                     if (!res.ok) {
@@ -22,22 +48,28 @@ const pmhSetup = {
                 .then(res => {
                     // console.log(res.data)
                     data.value = res.data;
+                    res.data.notifikasi.forEach((row, i) => {
+                        loading.submit[i] = false;
+                    });
+                    res.data.notifikasi.forEach((row, i) => {
+                        error.submit[i] = false;
+                    });
                 })
                 .catch(err => {
                     console.log(err)
-                    error.value = err
+                    error.fetch = err
                 })
-                .finally(() => loading.value = false)
+                .finally(() => loading.fetch = false)
         })
 
-        const save = async () => {
-            submitLoading.value = true
+        const save = async (index) => {
+            loading.submit[index] = true
             try {
                 const send = await fetch('/pmh_update', {
                     method: "POST",
                     body: JSON.stringify({
-                        id: data.value.notifikasi[0].id,
-                        pesan: data.value.notifikasi[0].pesan,
+                        id: data.value.notifikasi[index].id,
+                        pesan: data.value.notifikasi[index].pesan,
                     }),
                     headers: {
                         'Content-Type': 'application/json'
@@ -50,21 +82,20 @@ const pmhSetup = {
                         return res.json()
                     })
 
-                submitResponse.value = send.message;
+                snackbar.message = send.message
             } catch (error) {
-                submitResponse.value = error;
+                snackbar.message = error
             }
-            submitLoading.value = false;
-            snackbar.value = true;
+            loading.submit[index] = false;
+            snackbar.open = true;
         }
-
-        const rules = [
-            value => !!value || 'Required.',
-            value => (value && value.length >= 3) || 'Min 3 characters',
-        ]
 
         const testNotif = () => {
             if (!nomorTelpPenerima.value) {
+                return;
+            }
+
+            if (selectedIndex.value == null) {
                 return;
             }
 
@@ -72,6 +103,7 @@ const pmhSetup = {
                 method: "POST",
                 body: JSON.stringify({
                     number: nomorTelpPenerima.value,
+                    notifikasi_id: data.value.notifikasi[selectedIndex.value].id
                 }),
                 headers: {
                     'Content-Type': 'application/json'
@@ -84,29 +116,28 @@ const pmhSetup = {
                     return res.json()
                 })
                 .then(res => {
-                    submitResponse.value = res.message
+                    snackbar.message = res.message
                 })
                 .catch(err => {
-                    submitResponse.value = err.message
+                    snackbar.message = err.message
                 })
                 .finally(() => {
-                    snackbar.value = true
+                    snackbar.open = true
                     dialog.value = false
                 })
         }
 
+
         return {
-            data,
-            error,
             loading,
-            submitLoading,
-            snackbar,
-            save,
-            submitResponse,
-            testNotif,
+            error,
             dialog,
-            nomorTelpPenerima,
-            rules
+            data,
+            save,
+            snackbar,
+            selectedIndex,
+            testNotif,
+            nomorTelpPenerima
         }
     }
 }
