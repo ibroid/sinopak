@@ -2290,7 +2290,7 @@ model perkara {
     perkara_pihak_tersangka                  perkara_pihak_tersangka[]
     perkara_pk                               perkara_pk?
     perkara_proses                           perkara_proses[]
-    perkara_putusan                          perkara_putusan[]
+    perkara_putusan                          perkara_putusan?
     perkara_putusan_pkpu_sementara           perkara_putusan_pkpu_sementara?
     perkara_putusan_pkpu_tetap               perkara_putusan_pkpu_tetap[]
     perkara_putusan_sela                     perkara_putusan_sela[]
@@ -2540,7 +2540,7 @@ model perkara_biaya {
     pihak_id               BigInt?
     pihak_ke               Int?
     urutan                 Int?                    @db.UnsignedInt
-    jenis_transaksi        Boolean
+    jenis_transaksi        Int
     tanggal_transaksi      DateTime                @db.Date
     uraian                 String                  @default("") @db.VarChar(500)
     jumlah                 Decimal                 @db.Decimal(16, 2)
@@ -4705,7 +4705,7 @@ model perkara_proses {
 }
 
 model perkara_putusan {
-    perkara_id                     BigInt    @db.UnsignedBigInt
+    perkara_id                     BigInt    @unique @db.UnsignedBigInt
     tanggal_putusan                DateTime  @db.Date
     putusan_verstek                String?   @db.VarChar(1)
     sumber_hukum_id                String?   @db.VarChar(20)
