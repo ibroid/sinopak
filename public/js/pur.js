@@ -1,4 +1,5 @@
 const { reactive, ref, onMounted } = Vue;
+import { useWebSocket } from "./Websocket.js";
 
 const purSetup = {
     setup() {
@@ -21,6 +22,20 @@ const purSetup = {
         const dialog = ref(false)
         const selectedIndex = ref(null)
         const nomorTelpPenerima = ref(null)
+
+        const { isConnected, socket } = useWebSocket('ws://localhost:3000/log_event');
+
+        onMounted(() => {
+            if (isConnected) {
+                snackbar.open = true;
+                snackbar.message = "Berhasil Terhubung ke Websocket"
+            }
+        })
+
+        socket.onmessage = (event) => {
+            const eventData = JSON.parse(event.data)
+            data.value.log_notifikasi.push(eventData.payload)
+        }
 
         onMounted(() => {
             fetch('/pur_data')

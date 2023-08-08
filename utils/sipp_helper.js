@@ -15,3 +15,22 @@ export function statusPihak(id) {
         return "Sebagian Tergugat";
     }
 }
+
+export function statusKetemu(data) {
+    if (data == 'Y') {
+        return 'Bertemu';
+    }
+
+    if (data == 'T') {
+        return 'Tidak Bertemu';
+    }
+
+    if (data == 'S') {
+        return 'POS INDONESIA';
+    }
+
+    if (data == 'E') {
+        return 'ECOURT';
+    }
+
+}

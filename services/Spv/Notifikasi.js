@@ -57,6 +57,9 @@ export async function notifText(notifikasi_id) {
         prismaSinopak.notifikasi.findFirst({
             where: {
                 id: notifikasi_id
+            },
+            include: {
+                tujuan: true
             }
         })
     ])
@@ -70,7 +73,6 @@ export async function notifText(notifikasi_id) {
     }
 
     data[0].perkara_biaya.forEach(row => {
-        console.log(row.jenis_transaksi + " - " + row.jumlah)
         if (row.jenis_transaksi == 1) {
             saldoMasuk += parseFloat(String(row.jumlah).replace('.00', ''));
         } else {
@@ -87,8 +89,7 @@ export async function notifText(notifikasi_id) {
         .replace('{sisa_panjar}', rupiah(String(saldoMasuk - saldoKeluar)))
         .replace('{terbilang_sisa_panjar}', angkaTerbilangJs(saldoMasuk - saldoKeluar));
 
-    return pesan;
-
+    return { text: pesan, tujuan: data[1].tujuan.nama, jenis_notifikasi_id: data[1].jenis_notifikasi_id };
 }
 
 export async function saveLog(pesan, number, id) {

@@ -3372,35 +3372,36 @@ model perkara_jadwal_pemeriksaan_pk {
 }
 
 model perkara_jadwal_sidang {
-    id                   BigInt          @id @db.UnsignedBigInt
-    perkara_id           BigInt          @db.UnsignedBigInt
-    verzet               String          @default("T") @db.Char(1)
-    keberatan            String?         @default("T") @db.Char(1)
-    ikrar_talak          String?         @default("T") @db.Char(1)
-    urutan               Int             @default(1) @db.UnsignedInt
-    tanggal_sidang       DateTime        @db.Date
-    jam_sidang           DateTime?       @db.Time(0)
-    sampai_jam           DateTime?       @db.Time(0)
-    agenda_id            String?         @db.VarChar(50)
-    agenda               String?         @db.VarChar(500)
-    ruangan_id           Int?            @db.UnsignedInt
-    ruangan              String?         @db.VarChar(50)
-    sidang_keliling      String?         @default("T") @db.Char(1)
-    dihadiri_oleh        Int?            @db.TinyInt
-    ditunda              String          @default("T") @db.Char(1)
-    alasan_ditunda       String?         @db.VarChar(500)
-    sidang_ditempat      Boolean?        @default(false)
-    sifat_sidang         String?         @default("Y") @db.Char(1)
-    keterangan           String?         @db.VarChar(500)
-    edoc_bas             String?         @db.VarChar(250)
-    diedit_oleh          String?         @db.VarChar(30)
-    diedit_tanggal       DateTime?       @db.DateTime(0)
-    diinput_oleh         String?         @db.VarChar(30)
-    diinput_tanggal      DateTime?       @db.DateTime(0)
-    diperbaharui_oleh    String?         @db.VarChar(30)
-    diperbaharui_tanggal DateTime?       @db.DateTime(0)
-    perkara              perkara         @relation(fields: [perkara_id], references: [perkara_id], onDelete: Cascade, onUpdate: Restrict, map: "perkara_jadwal_sidang_fk")
-    ruangan_sidang       ruangan_sidang? @relation(fields: [ruangan_id], references: [id], onUpdate: Restrict, map: "perkara_jadwal_sidang_fk1")
+    id                         BigInt                       @id @db.UnsignedBigInt
+    perkara_id                 BigInt                       @db.UnsignedBigInt
+    verzet                     String                       @default("T") @db.Char(1)
+    keberatan                  String?                      @default("T") @db.Char(1)
+    ikrar_talak                String?                      @default("T") @db.Char(1)
+    urutan                     Int                          @default(1) @db.UnsignedInt
+    tanggal_sidang             DateTime                     @db.Date
+    jam_sidang                 DateTime?                    @db.Time(0)
+    sampai_jam                 DateTime?                    @db.Time(0)
+    agenda_id                  String?                      @db.VarChar(50)
+    agenda                     String?                      @db.VarChar(500)
+    ruangan_id                 Int?                         @db.UnsignedInt
+    ruangan                    String?                      @db.VarChar(50)
+    sidang_keliling            String?                      @default("T") @db.Char(1)
+    dihadiri_oleh              Int?                         @db.TinyInt
+    ditunda                    String                       @default("T") @db.Char(1)
+    alasan_ditunda             String?                      @db.VarChar(500)
+    sidang_ditempat            Boolean?                     @default(false)
+    sifat_sidang               String?                      @default("Y") @db.Char(1)
+    keterangan                 String?                      @db.VarChar(500)
+    edoc_bas                   String?                      @db.VarChar(250)
+    diedit_oleh                String?                      @db.VarChar(30)
+    diedit_tanggal             DateTime?                    @db.DateTime(0)
+    diinput_oleh               String?                      @db.VarChar(30)
+    diinput_tanggal            DateTime?                    @db.DateTime(0)
+    diperbaharui_oleh          String?                      @db.VarChar(30)
+    diperbaharui_tanggal       DateTime?                    @db.DateTime(0)
+    perkara                    perkara                      @relation(fields: [perkara_id], references: [perkara_id], onDelete: Cascade, onUpdate: Restrict, map: "perkara_jadwal_sidang_fk")
+    ruangan_sidang             ruangan_sidang?              @relation(fields: [ruangan_id], references: [id], onUpdate: Restrict, map: "perkara_jadwal_sidang_fk1")
+    perkara_pelaksanaan_relaas perkara_pelaksanaan_relaas[]
 
     @@index([jam_sidang], map: "jam_sidang")
     @@index([perkara_id], map: "perkara_id")
@@ -3951,22 +3952,23 @@ model perkara_panitera_pn {
 }
 
 model perkara_pelaksanaan_relaas {
-    id                   BigInt    @id @default(autoincrement())
-    perkara_id           BigInt    @db.UnsignedBigInt
-    sidang_id            Int
+    id                   BigInt                 @id @default(autoincrement())
+    perkara_id           BigInt                 @db.UnsignedBigInt
+    sidang_id            BigInt
     jurusita_id          Int
     pihak_id             BigInt?
-    no_resi_pos          String?   @db.VarChar(255)
-    tanggal_relaas       DateTime? @db.Date
-    tanggal_jursit_pos   DateTime? @db.Date
-    ket_temu             String?   @default("Y") @db.Char(1)
-    ket_hasil_relaas     String?   @db.Text
-    doc_relaas           String?   @db.VarChar(255)
-    doc_resi             String?   @db.VarChar(255)
-    diinput_oleh         String?   @db.VarChar(30)
-    diinput_tanggal      DateTime? @db.DateTime(0)
-    diperbaharui_oleh    String?   @db.VarChar(30)
-    diperbaharui_tanggal DateTime? @db.DateTime(0)
+    no_resi_pos          String?                @db.VarChar(255)
+    tanggal_relaas       DateTime?              @db.Date
+    tanggal_jursit_pos   DateTime?              @db.Date
+    ket_temu             String?                @default("Y") @db.Char(1)
+    ket_hasil_relaas     String?                @db.Text
+    doc_relaas           String?                @db.VarChar(255)
+    doc_resi             String?                @db.VarChar(255)
+    diinput_oleh         String?                @db.VarChar(30)
+    diinput_tanggal      DateTime?              @db.DateTime(0)
+    diperbaharui_oleh    String?                @db.VarChar(30)
+    diperbaharui_tanggal DateTime?              @db.DateTime(0)
+    jadwal_sidang        perkara_jadwal_sidang? @relation(fields: [sidang_id], references: [id])
 }
 
 model perkara_penawaran_konsinyasi {
