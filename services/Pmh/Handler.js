@@ -65,3 +65,10 @@ export async function testNotifHandler(req, res) {
         res.status(400).send(res_failed({ message: `Pesan test gagal dikirim. ${error.message}` }))
     }
 }
+
+/**
+ * @type {import("fastify/types/route").RouteHandler}
+ */
+export async function notifHandlerHakim(req, res) {
+
+}

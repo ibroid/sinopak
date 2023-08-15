@@ -33,6 +33,15 @@ const routes = [
             res.sendFile('pages/beranda.html')
         }
     },
+    {
+        url: "/api_test",
+        method: "GET",
+        handler: (req, res) => {
+            return {
+                status: 'ok'
+            }
+        }
+    },
     ...pmhRoute,
     ...pppRoute,
     ...pjsRoute,

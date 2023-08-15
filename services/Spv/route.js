@@ -21,6 +21,16 @@ const spvRoute = [
         method: 'POST',
         handler: testNotifHandler
     },
+    {
+        url: '/api/spv',
+        method: 'POST',
+        handler: (req, res) => {
+            console.log(req.body)
+            return {
+                status: 'ok'
+            }
+        }
+    },
 ]
 
 export default spvRoute;

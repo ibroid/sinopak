@@ -1,4 +1,4 @@
-import { dataHandler, pageHandler, saveHandler, testNotifHandler } from "./Handler.js";
+import { dataHandler, notifHandlerHakim, pageHandler, saveHandler, testNotifHandler } from "./Handler.js";
 
 /**
  * @type {import("fastify/types/route").RouteOptions[]}
@@ -23,6 +23,11 @@ const pmhRoute = [
         url: '/pmh_test_notif',
         method: 'POST',
         handler: testNotifHandler
+    },
+    {
+        url: '/api/pmh_hakim',
+        method: 'POST',
+        handler: notifHandlerHakim
     },
 ]
 

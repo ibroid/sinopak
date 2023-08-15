@@ -1,4 +1,4 @@
-const { createApp, ref, onMounted } = Vue;
+const { createApp, ref, onMounted, reactive } = Vue;
 const { createVuetify } = Vuetify;
 const { useRouter, useRoute, START_LOCATION } = VueRouter;
 
@@ -31,7 +31,13 @@ async function bootstrap() {
                 template: pages[1],
                 setup() {
                     const message = ref('kuya batok');
-
+                    const loading = reactive({
+                        fetch: false,
+                        submit: false
+                    })
+                    async function startWhatsapp() {
+                        // const
+                    }
                     return {
                         message
                     }
