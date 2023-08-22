@@ -5,10 +5,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "npx nodemon index.js",
+    "dev": "npx nodemon index.js --dev",
     "dbpull:sinopak": "npx prisma db pull --schema=./prisma/sinopak.schema.prisma",
     "dbgen:sinopak": "npx prisma generate --schema=./prisma/sinopak.schema.prisma",
     "dbgen:sipp": "npx prisma generate --schema=./prisma/sipp.schema.prisma",
+    "test:cron": "node cron.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Malik",
@@ -23,6 +24,7 @@
     "fastify": "^4.21.0",
     "material-design-icons-iconfont": "^6.7.0",
     "moment": "^2.29.4",
+    "node-cron": "^3.0.2",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4",
     "vuetify": "^3.3.10"

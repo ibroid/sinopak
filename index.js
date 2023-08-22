@@ -5,6 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import routes from './routes.js';
 // import 'dotenv/config';
+import tasks from './cron.js';
 import fastifyWebsocket from "@fastify/websocket";
 import { websocket } from './webshock.js';
 
@@ -53,8 +54,9 @@ try {
         {
             port: process.env.HTTP_PORT,
             host: process.env.HTTP_URL
-        })
+        });
     console.log('running on ' + process.env.HTTP_PORT)
+    tasks.start();
 } catch (err) {
     fastify.log.error(err)
     process.exit(1)

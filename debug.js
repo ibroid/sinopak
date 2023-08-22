@@ -1,7 +1,3 @@
-import { prisma } from "./db/sinopak.js";
+import {  startNotifPrs } from "./services/Prs/Notifikasi.js";
 
-prisma.notifikasi.findFirst({
-    where: {
-        id: 1
-    }
-}).then(res => console.log(res))
+await startNotifPrs()
