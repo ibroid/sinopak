@@ -154,7 +154,8 @@ export async function saveLog(pesan, number, id) {
 }
 
 export async function startNotifPrs() {
-    await startPrsHakim()
+    await startPrsHakim();
+    await startPrsJurusita();
 }
 
 export async function startPrsHakim() {
