@@ -1,3 +1,3 @@
-import { startNotifPrs, startPrsJurusita } from "./services/Prs/Notifikasi.js";
+import { startNotifPrs } from "./services/Prs/Notifikasi.js";
 
-await startPrsJurusita()
+await startNotifPrs()

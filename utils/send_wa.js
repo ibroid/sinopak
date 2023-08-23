@@ -1,4 +1,4 @@
-
+import fetch from "node-fetch"
 export async function sendMessage(number, text) {
     return await fetch(process.env.HTTP_WA_API + '/api/sendText', {
         method: "POST",
