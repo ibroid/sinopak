@@ -212,7 +212,7 @@ export async function startPrsJurusita() {
 
             logSave({
                 id: 7,
-                number: hakim.keterangan,
+                number: js.keterangan,
                 tujuan: message.tujuan,
                 pesan: message.text
             })
