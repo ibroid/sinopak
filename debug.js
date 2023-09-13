@@ -1,3 +1,4 @@
-import { startNotifPrs } from "./services/Prs/Notifikasi.js";
+import { startNotifPrs, startPrsPanitera } from "./services/Prs/Notifikasi.js";
 
-await startNotifPrs()
+// await startNotifPrs()
+await startPrsPanitera()

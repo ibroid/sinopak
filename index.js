@@ -9,7 +9,13 @@ import tasks from './cron.js';
 import fastifyWebsocket from "@fastify/websocket";
 import { websocket } from './webshock.js';
 
-const fastify = Fastify()
+const fastify = Fastify({
+    logger: {
+        transport: {
+            target: "@fastify/one-line-logger",
+        },
+    },
+})
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -55,7 +61,6 @@ try {
             port: process.env.HTTP_PORT,
             host: process.env.HTTP_URL
         });
-    console.log('running on ' + process.env.HTTP_PORT)
     tasks.start();
 } catch (err) {
     fastify.log.error(err)

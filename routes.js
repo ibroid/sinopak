@@ -40,6 +40,10 @@ const routes = [
             return {
                 status: 'ok'
             }
+        },
+        onSend(request, reply, payload, done) {
+            request.log.info({}, payload)
+            done()
         }
     },
     ...pmhRoute,

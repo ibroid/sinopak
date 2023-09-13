@@ -220,3 +220,32 @@ export async function startPrsJurusita() {
         })
     )
 }
+
+export async function startPrsPanitera(params) {
+    const data = await prismaSipp.$queryRaw`SELECT nomor_perkara,agenda FROM perkara_jadwal_sidang AS a
+    LEFT JOIN perkara_pelaksanaan_relaas AS b ON a.id = b.sidang_id
+    LEFT JOIN perkara AS c ON a.perkara_id = c.perkara_id
+    WHERE a.tanggal_sidang = CURDATE()
+    AND b.id IS NULL
+    AND a.urutan <= 2
+    AND (a.agenda LIKE 'sidang pertama' OR a.agenda LIKE 'panggil%')`;
+
+    const messageTemplate = "*NOTIFIKASI PERINGATAN RELAAS*\nBerikut daftar relaas yangg belum terupload untuk sidang hari ini\n\n{daftar_relaas}"
+
+    let daftar = ''
+
+    data.forEach(row => {
+        daftar += row.nomor_perkara + '\n';
+    });
+
+    const message = messageTemplate.replace("{daftar_relaas}", daftar)
+
+    const dataPanitera = await prismaSinopak.pengaturan.findFirst({
+        where: {
+            key: "nomor_panitera"
+        }
+    })
+
+    sendMessage(dataPanitera.value, message);
+
+}

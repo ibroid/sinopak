@@ -101,3 +101,143 @@ export async function saveLog(pesan, number, id) {
         }
     })
 }
+
+export async function startSpvJurusita(perkara_id) {
+
+    const today = new Date().toISOString().slice(0, 10);
+    const data = await Promise.all([
+        prismaSipp.perkara.findFirst({
+            select: {
+                nomor_perkara: true,
+                jenis_perkara_nama: true,
+                perkara_putusan: {
+                    select: {
+                        putusan_verstek: true,
+                        tanggal_putusan: true
+                    }
+                },
+                perkara_jadwal_sidang: {
+                    where: {
+                        tanggal_sidang: {
+                            equals: new Date(today)
+                        }
+                    }
+                },
+                perkara_jurusita: {
+                    select: {
+                        jurusita: {
+                            select: {
+                                nama_gelar: true,
+                                keterangan: true
+                            }
+                        }
+                    }
+                }
+            },
+            where: {
+                perkara_id: perkara_id
+            }
+        }),
+        prismaSinopak.notifikasi.findFirstOrThrow({
+            where: {
+                id: 8
+            },
+            include: {
+                tujuan: true
+            }
+        })
+    ])
+
+    if (data[0].jenis_perkara_nama !== 'Cerai Gugat' && data[0].jenis_perkara_nama !== 'Cerai Talak') {
+        throw new Error(`Validasi gagal. ${data[0].nomor_perkara} bukan perkara Gugat/Talak`)
+    }
+
+    if (data[0].perkara_putusan == null) {
+        throw new Error(`Validasi gagal. ${data[0].nomor_perkara} bukan perkara putus`)
+    }
+
+    if (data[0].perkara_putusan?.putusan_verstek == 'T') {
+        throw new Error(`Validasi gagal. ${data[0].nomor_perkara} Bukan perkara putus verstek`)
+    }
+
+    if (
+        data[0].perkara_jadwal_sidang[0].sidang_keliling == 'Y' ||
+        data[0].perkara_jadwal_sidang[0].dihadiri_oleh == null ||
+        data[0].perkara_jadwal_sidang[0].sampai_jam == null
+    ) {
+        throw new Error(`Validasi gagal. ${data[0].nomor_perkara} Notif tidak berjalan untuk perkara sidang keliling, atau data kehadiran belum di isi`)
+    }
+
+    const pesan = data[1].pesan
+        .replace('{nomor_perkara}', data[0].nomor_perkara)
+        .replace('{tanggal_putus}', dateIndo(data[0].perkara_putusan.tanggal_putusan));
+
+    data[0].perkara_jurusita.forEach(async (v, i, a) => {
+
+        if (data[0].perkara_jadwal_sidang[0].dihadiri_oleh == 4) {
+            execSend(v.jurusita, pesan, data[1].jenis_notifikasi_id, data[1].tujuan.nama + ' ke ' + String(i + 1))
+            return;
+        }
+
+        if (
+            data[0].perkara_jadwal_sidang[0].dihadiri_oleh == 2
+            && a.length > 1
+            && i == 1
+        ) {
+            execSend(v.jurusita, pesan, data[1].jenis_notifikasi_id, data[1].tujuan.nama + ' ke 2')
+            return;
+        }
+
+        if (
+            data[0].perkara_jadwal_sidang[0].dihadiri_oleh == 3
+            && a.length > 1
+            && i == 0
+        ) {
+            execSend(v.jurusita, pesan, data[1].jenis_notifikasi_id, data[1].tujuan.nama + ' ke 1')
+            return;
+        }
+
+        if (a.length == 1) {
+            execSend(v.jurusita, pesan, data[1].jenis_notifikasi_id, data[1].tujuan.nama)
+            return;
+        }
+    })
+
+}
+
+export async function startSpvPihak(perkara_id) {
+    const data = Promise.all([
+        prismaSipp.perkara.findFirstOrThrow({
+            select: {
+                nomor_perkara: true,
+                perkara_biaya: true,
+            },
+            where: {
+                perkara_id: perkara_id
+            }
+        }),
+        prismaSinopak.notifikasi.findFirst({
+            where: {
+                id: 9
+            },
+            include: {
+                tujuan: true
+            }
+        })
+    ])
+
+}
+
+export async function execSend(jurusita, pesan, id, tujuan) {
+    await sendMessage(jurusita.keterangan, pesan);
+    await logSave({
+        id: id,
+        pesan: pesan,
+        number: jurusita.keterangan,
+        tujuan: tujuan
+    });
+}
+
+export async function startNotifSpv(params) {
+    await startSpvJurusita(params.perkara_id)
+}

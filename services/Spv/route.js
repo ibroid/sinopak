@@ -1,5 +1,9 @@
 import { pageHandler, dataHandler, saveHandler, testNotifHandler } from "./Handler.js";
+import { startNotifSpv } from "./Notifikasi.js";
 
+/**
+ * @type {import("fastify/types/route").RouteOptions[]}
+ */
 const spvRoute = [
     {
         url: '/spv_page',
@@ -24,10 +28,23 @@ const spvRoute = [
     {
         url: '/api/spv',
         method: 'POST',
-        handler: (req, res) => {
-            console.log(req.body)
+        schema: {
+            body: {
+                type: 'object',
+                properties: {
+                    perkara_id: {
+                        type: 'string',
+                        nullable: false,
+                        minLength: 1
+                    }
+                },
+            }
+        },
+        handler: async (req, res) => {
+            await startNotifSpv(req.body)
             return {
-                status: 'ok'
+                status: 'ok',
+                message: 'success'
             }
         }
     },

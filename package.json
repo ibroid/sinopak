@@ -17,6 +17,7 @@
   "dependencies": {
     "@develoka/angka-terbilang-js": "github:develoka/angka-terbilang-js",
     "@fastify/cors": "^8.3.0",
+    "@fastify/one-line-logger": "^1.2.0",
     "@fastify/static": "^6.10.2",
     "@fastify/websocket": "^8.2.0",
     "@prisma/client": "^5.0.0",
