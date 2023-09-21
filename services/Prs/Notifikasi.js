@@ -156,6 +156,7 @@ export async function saveLog(pesan, number, id) {
 export async function startNotifPrs() {
     await startPrsHakim();
     await startPrsJurusita();
+    await startPrsPanitera();
 }
 
 export async function startPrsHakim() {
@@ -230,7 +231,7 @@ export async function startPrsPanitera(params) {
     AND a.urutan <= 2
     AND (a.agenda LIKE 'sidang pertama' OR a.agenda LIKE 'panggil%')`;
 
-    const messageTemplate = "*NOTIFIKASI PERINGATAN RELAAS*\nBerikut daftar relaas yangg belum terupload untuk sidang hari ini\n\n{daftar_relaas}"
+    const messageTemplate = "*NOTIFIKASI PEMBERITAHUAN RELAAS*\nBerikut daftar relaas yangg belum terupload untuk sidang hari ini\n\n{daftar_relaas}"
 
     let daftar = ''
 
